@@ -1,0 +1,6 @@
+[ssh-ipfilter]
+
+enabled = true
+filter = sshd
+action = ipfilter
+logpath = /var/log/authlog

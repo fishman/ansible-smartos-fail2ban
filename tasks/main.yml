@@ -26,6 +26,13 @@
     group: root
     mode: 0644
 
+- name: add jail config
+  copy:
+    src: jail.local
+    dest: /opt/local/etc/fail2ban/jail.local
+    group: root
+    mode: 0644
+
 - name: add fail2ban script
   copy:
     src: solaris-svc-fail2ban
