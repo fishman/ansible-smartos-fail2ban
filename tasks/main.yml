@@ -1,3 +1,6 @@
+- name: Install fail2ban package
+  pkgin: name=fail2ban
+
 - name: Create smf directory
   file:
     path: /opt/custom/smf
@@ -32,7 +35,6 @@
 
 - name: import fail2ban service
   command: /usr/sbin/svccfg import /opt/custom/smf/fail2ban.xml
-  when: smfconfig
+  when: smfconfig.changed
 
-
-- service: name=fail2ban state=restarted
+- service: name=fail2ban state=restarted enabled=yes
