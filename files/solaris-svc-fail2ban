@@ -10,12 +10,12 @@
 set -e
 
 
-F2B_CONF="/etc/fail2ban/fail2ban.conf"
+F2B_CONF="/opt/local/etc/fail2ban/fail2ban.conf"
 if [ -n "$2" ] && [ -f "$F2B_CONF" ]; then
   F2B_CONF="$2"
 fi
 
-ENV="/usr/bin/env -i LANG=C PATH=/usr/local/bin:/usr/bin:/bin:/opt/sfw/bin:/usr/sfw/bin"
+ENV="/usr/bin/env -i LANG=C PATH=/opt/local/bin:/usr/bin:/bin:/opt/sfw/bin:/usr/sfw/bin"
 
 # get socket/pid conf and check dir exists
 # sock and pid default dirs are currently the same
@@ -37,29 +37,29 @@ case $1 in
 				rm -f $SOCK_FILE || exit 1
 			fi
 		fi
-		[ -f /etc/fail2ban.conf ] || touch /etc/fail2ban.conf
+		[ -f /opt/local/etc/fail2ban.conf ] || touch /opt/local/etc/fail2ban.conf
 		echo "Starting fail2ban-server with $F2B_CONF"
-		eval $ENV /usr/local/bin/fail2ban-client start &
+		eval $ENV /opt/local/bin/fail2ban-client start &
 	;;
 	stop)
 		echo "Stopping fail2ban-server with $F2B_CONF"
-		eval $ENV /usr/local/bin/fail2ban-client stop &
+		eval $ENV /opt/local/bin/fail2ban-client stop &
 	;;
 	reload | refresh )
 		echo "Reloading fail2ban-server with $F2B_CONF"
-		eval $ENV /usr/local/bin/fail2ban-client reload &
+		eval $ENV /opt/local/bin/fail2ban-client reload &
 	;;
 	restart | force-reload)
 		echo "Forcing reload of fail2ban-server with $F2B_CONF"
-		eval $ENV /usr/local/bin/fail2ban-client stop &
+		eval $ENV /opt/local/bin/fail2ban-client stop &
 		sleep 2
-		eval $ENV /usr/local/bin/fail2ban-client start &
+		eval $ENV /opt/local/bin/fail2ban-client start &
 	;;
 	status)
-		/usr/local/bin/fail2ban-client status &
+		/opt/local/bin/fail2ban-client status &
 	;;
 	*)
-		echo "Usage: /lib/svc/method/svc-fail2ban start|stop|status|refresh|restart|reload|force-reload" >&2
+		echo "Usage: /opt/custom/share/svc/svc-fail2ban start|stop|status|refresh|restart|reload|force-reload" >&2
 		exit 2
 	;;
 esac

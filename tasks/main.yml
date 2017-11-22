@@ -1,0 +1,38 @@
+- name: Create smf directory
+  file:
+    path: /opt/custom/smf
+    state: directory
+
+- name: Create svc directory
+  file:
+    path: /opt/custom/share/svc
+    state: directory
+
+- name: add fail2ban smf config
+  copy:
+    src: solaris-fail2ban.xml
+    dest: /opt/custom/smf/fail2ban.xml
+    group: root
+    mode: 0644
+  register: smfconfig
+
+- name: change ipfilter.conf
+  copy:
+    src: ipfilter.conf
+    dest: /opt/local/etc/fail2ban/action.d/ipfilter.conf
+    group: root
+    mode: 0644
+
+- name: add fail2ban script
+  copy:
+    src: solaris-svc-fail2ban
+    dest: /opt/custom/share/svc/svc-fail2ban
+    group: root
+    mode: 0755
+
+- name: import fail2ban service
+  command: /usr/sbin/svccfg import /opt/custom/smf/fail2ban.xml
+  when: smfconfig
+
+
+- service: name=fail2ban state=restarted
