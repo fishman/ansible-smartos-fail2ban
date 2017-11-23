@@ -3,4 +3,4 @@
 enabled = true
 filter = sshd
 action = ipfilter
-logpath = /var/log/authlog
+logpath = /var/log/auth.log
